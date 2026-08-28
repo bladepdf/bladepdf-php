@@ -31,7 +31,7 @@ final readonly class AssetResolverOptions
         $this->searchRoots = $this->normalizeRoots($documentRoot, $searchRoots);
         $this->localHosts = array_values(array_unique(array_map(
             static fn (string $host): string => strtolower(trim($host, " \t\n\r\0\x0B[]")),
-            array_filter($localHosts, static fn (mixed $host): bool => is_string($host) && trim($host) !== ''),
+            array_filter($localHosts, static fn (string $host): bool => trim($host) !== ''),
         )));
     }
 
@@ -45,7 +45,7 @@ final readonly class AssetResolverOptions
         $normalized = [];
 
         foreach ($roots as $root) {
-            if (! is_string($root) || trim($root) === '') {
+            if (trim($root) === '') {
                 throw new InvalidArgumentException('BladePDF asset roots must be non-empty strings.');
             }
 
