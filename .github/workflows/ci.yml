@@ -1,0 +1,52 @@
+name: ci
+
+on:
+    push:
+        branches:
+            - main
+            - master
+    pull_request:
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - php: '8.2'
+                      composer_flags: '--prefer-lowest'
+                    - php: '8.3'
+                      composer_flags: ''
+                    - php: '8.4'
+                      composer_flags: ''
+                    - php: '8.5'
+                      composer_flags: ''
+
+        name: PHP ${{ matrix.php }}
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  coverage: none
+                  tools: composer:v2
+
+            - name: Install dependencies
+              run: composer update --prefer-dist --no-interaction ${{ matrix.composer_flags }}
+
+            - name: Validate composer.json
+              run: composer validate --strict
+
+            - name: Run lint
+              run: composer lint
+
+            - name: Run static analysis
+              run: composer analyse
+
+            - name: Run tests
+              run: composer test

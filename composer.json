@@ -1,0 +1,47 @@
+{
+  "name": "bladepdf/php",
+  "description": "Framework-agnostic PHP SDK for the BladePDF managed Chromium API.",
+  "homepage": "https://bladepdf.com",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "bladepdf",
+    "pdf",
+    "html to pdf",
+    "php sdk",
+    "chromium",
+    "api"
+  ],
+  "support": {
+    "docs": "https://docs.bladepdf.com/php-sdk",
+    "issues": "https://github.com/bladepdf/bladepdf-php/issues",
+    "source": "https://github.com/bladepdf/bladepdf-php"
+  },
+  "require": {
+    "php": "^8.2",
+    "ext-fileinfo": "*",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^7.5"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^10.5|^11.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "BladePDF\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BladePDF\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "lint": "find src tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l",
+    "analyse": "phpstan analyse --no-progress --memory-limit=512M"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
